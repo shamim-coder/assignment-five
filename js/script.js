@@ -68,10 +68,7 @@ const getRecipes = (recipes) => {
     const searchCount = recipes.length
     const searchResult = document.getElementById('search-result')
     const searchValue = document.getElementById('search-input').value
-    const searchResultCount =
-        `<div class="card-body bg-light text-dark">
-            <p class="card-title">${searchCount} recipe results for "${searchValue}"</p>
-        </div>`
+    const searchResultCount = `<p class="card-title">${searchCount} recipe results for "${searchValue}"</p>`
     searchResult.innerHTML = searchResultCount
 
     // search input value default
@@ -109,30 +106,12 @@ const singlePreview = (recipes) => {
                 <h5 class="fw-bold mb-4">Ingredients</h5>
 
                 <ul class="list-group">
-                    <li>
-                        <i class="fas fa-check-square"></i> 
-                        ${strMeasure1} ${strIngredient1} 
-                    </li>
-                    <li>
-                        <i class="fas fa-check-square"></i> 
-                        ${strMeasure2} ${strIngredient2} 
-                    </li>
-                    <li>
-                        <i class="fas fa-check-square"></i> 
-                        ${strMeasure3} ${strIngredient3} 
-                    </li>
-                    <li>
-                        <i class="fas fa-check-square"></i> 
-                        ${strMeasure4} ${strIngredient4} 
-                    </li>
-                    <li>
-                        <i class="fas fa-check-square"></i> 
-                        ${strMeasure5} ${strIngredient5} 
-                    </li>
-                    <li>
-                        <i class="fas fa-check-square"></i> 
-                        ${strMeasure6} ${strIngredient6} 
-                    </li>
+                    <li> <i class="fas fa-check-square"></i> ${strMeasure1} ${strIngredient1} </li>
+                    <li> <i class="fas fa-check-square"></i> ${strMeasure2} ${strIngredient2} </li>
+                    <li> <i class="fas fa-check-square"></i> ${strMeasure3} ${strIngredient3} </li>
+                    <li> <i class="fas fa-check-square"></i> ${strMeasure4} ${strIngredient4} </li>
+                    <li> <i class="fas fa-check-square"></i> ${strMeasure5} ${strIngredient5} </li>
+                    <li> <i class="fas fa-check-square"></i> ${strMeasure6} ${strIngredient6} </li>
                 </ul>
             </div>`
 

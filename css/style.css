@@ -52,7 +52,14 @@ img.thumb {
   object-fit: cover;
   border-radius: 10px;
 }
-
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+#single-preview, #search-result {
+    border-radius: 10px;
+}
 @media only screen and (max-width: 990px) {
     .search-box {
         width: 85%;
