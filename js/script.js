@@ -22,7 +22,6 @@ const searchHandler = () => {
                 searchResult.innerHTML = errorMessage
                 recipeContainer.innerHTML = ""
             });
-
     }
     
     // Search Recipe by name
@@ -78,8 +77,6 @@ const getRecipes = (recipes) => {
     document.getElementById('search-input').value = '';
 }
 
-
-
 // Lookup full meal details by id
 const getRecipeDetails = (id) => {
     document.getElementById('single-preview').style.display = "flex";
@@ -99,6 +96,7 @@ const singlePreview = (recipes) => {
     recipes.forEach(recipe => {
         const { strMeal, strMealThumb, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6 } = recipe
 
+        // Get Measurement and Ingredient
         const singleHeader =
             `<div class="col-md-6"> 
                 <img class="thumb" src="${strMealThumb}" alt="">
