@@ -68,7 +68,7 @@ const getRecipes = (recipes) => {
     const searchResult = document.getElementById('search-result')
     const searchValue = document.getElementById('search-input').value
     const searchResultCount = 
-    `<div class="card-body bg-light text-dark rounded mb-5">
+    `<div class="card-body bg-light text-dark rounded my-5">
         <p class="card-title">${searchCount} recipe results for "${searchValue}"</p>
     </div>`
     searchResult.innerHTML = searchResultCount
