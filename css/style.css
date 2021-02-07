@@ -53,13 +53,12 @@ img.thumb {
   border-radius: 10px;
 }
 .footer {
-    position: absolute;
+    position: fixed;
+    left: 0;
     bottom: 0;
-    width: 100%;
-}
-#single-preview, #search-result {
-    border-radius: 10px;
-}
+    width: 100%;  
+    text-align: center;
+  }
 @media only screen and (max-width: 990px) {
     .search-box {
         width: 85%;
