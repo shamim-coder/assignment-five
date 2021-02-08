@@ -60,7 +60,11 @@ img.thumb {
     bottom: 0;
     width: 100%;  
     text-align: center;
-  }
+}
+ul.list-group {
+    overflow-y: scroll;
+    height: 325px;
+}
 @media only screen and (max-width: 990px) {
     .search-box {
         width: 85%;

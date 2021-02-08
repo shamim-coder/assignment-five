@@ -32,7 +32,7 @@ const getRecipes = (recipes) => {
     recipes.forEach(recipe => {
         const { strMeal, strMealThumb, idMeal } = recipe
         const recipeTemplate =`
-            <a onclick="getRecipeDetails(${idMeal})" href="javascript:void(0)"><div class="card h-100">
+            <a onclick="getRecipeDetails(${idMeal})" href="#single-preview"><div class="card h-100">
                 <img src="${strMealThumb}" class="card-img-top" alt="...">
                 <div class="card-body bg-light text-dark">
                     <h5 class="card-title fw-bold">${strMeal}</h5>
