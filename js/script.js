@@ -1,58 +1,37 @@
-// Call APIs
 
+
+
+
+// Call APIs
 const searchHandler = () => {
     const searchInput = document.getElementById('search-input')
-    const recipeContainer = document.getElementById('recipe-container')
-    const getInputValue = searchInput.value
-    const source = getInputValue
-    let errorMessage = ""
+    document.getElementById('single-preview').innerHTML = ''
+    const searchValue = searchInput.value
+    let api = '';
 
     // Search Recipe by first letter
-    if (getInputValue.length === 1 || getInputValue == "") {
-        const api = `https://www.themealdb.com/api/json/v1/1/search.php?f=${source}`;
-        fetch(api)
-            .then((response) => response.json())
-            .then((data) => getRecipes(data.meals))
-            .catch(() => {
-                const searchResult = document.getElementById('search-result')
-                errorMessage +=
-                    `<div class="card-body bg-light text-dark">
-                <p class="card-title">Uh oh. We didn't find the search the recipes that you were looking for.</p>
-            </div>`
-                searchResult.innerHTML = errorMessage
-                recipeContainer.innerHTML = ""
-            });
+    if (searchValue.length === 1 ) {
+        api = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchValue}`;
     }
-    
     // Search Recipe by name
-    if (getInputValue.length > 1) {
-        const api = `https://www.themealdb.com/api/json/v1/1/search.php?s=${source}`;
-        fetch(api)
-            .then((response) => response.json())
-            .then((data) => getRecipes(data.meals))
-            .catch(() => {
-                const searchResult = document.getElementById('search-result')
-                errorMessage +=
-                    `<div class="card-body bg-light text-dark">
-                <p class="card-title">Uh oh. We didn't find the search the recipes that you were looking for.</p>
-            </div>`
-                searchResult.innerHTML = errorMessage
-                recipeContainer.innerHTML = ""
-            });
-        }
-}
+    else if (searchValue.length > 1) {
+        api = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`;
+    }
 
+    fetch(api)
+        .then(response => response.json())
+        .then(data => getRecipes(data.meals))
+        .catch((error) => getErrorMessage("Uh oh. We didn't find the recipes that you were looking for."));
+}
 
 // get all recipes by search
 const getRecipes = (recipes) => {
-    
+    document.getElementById('recipe-container').innerHTML = ''
     const recipeContainer = document.getElementById('recipe-container')
-    let recipeTemplate = ""
     
     recipes.forEach(recipe => {
         const { strMeal, strMealThumb, idMeal } = recipe
-        recipeTemplate +=
-            `
+        const recipeTemplate =`
             <a onclick="getRecipeDetails(${idMeal})" href="javascript:void(0)"><div class="card h-100">
                 <img src="${strMealThumb}" class="card-img-top" alt="...">
                 <div class="card-body bg-light text-dark">
@@ -60,7 +39,7 @@ const getRecipes = (recipes) => {
                 </div>
             </div></a>`
 
-        recipeContainer.innerHTML = recipeTemplate
+        recipeContainer.innerHTML += recipeTemplate
     })
 
     // display total number of meal are found as shown 
@@ -77,46 +56,62 @@ const getRecipes = (recipes) => {
     document.getElementById('search-input').value = '';
 }
 
+// Error Message Display
+const getErrorMessage = (error) => {
+    const searchResult = document.getElementById('search-result')
+    const recipeContainer = document.getElementById('recipe-container')
+    const errorMessage =
+        `<div class="card-body bg-light text-dark mb-4">
+            <p class="card-title">${error}</p>
+        </div>`
+    searchResult.innerHTML = errorMessage
+    recipeContainer.innerHTML = ""
+}
+
 // Lookup full meal details by id
 const getRecipeDetails = (id) => {
-    document.getElementById('single-preview').style.display = "flex";
-
+    document.getElementById('single-preview').style.display = "inline-flex";
+    
     const api = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     fetch(api)
         .then((response) => response.json())
         .then((data) => singlePreview(data.meals))
-
+        .catch((error) => getErrorMessage("Something is wrong! Please try again letter"));
 }
 
 // Get Single Recipe Details
 const singlePreview = (recipes) => {
     
+    const recipe = recipes[0]
+    const {strMealThumb, strMeal} = recipe
+
+    const ingredient = []
+
+    for (let i = 1; i < 20; i++) {
+        if(recipe[`strIngredient${i}`]) {
+            ingredient.push(`
+                ${recipe[`strMeasure${i}`]}  ${recipe[`strIngredient${i}`]}
+            `)
+        } else {
+            break;
+        }
+    }
+      
     const singleContainer = document.getElementById('single-preview');
-    
-    recipes.forEach(recipe => {
-        const { strMeal, strMealThumb, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6 } = recipe
 
-        // Get Measurement and Ingredient
-        const singleHeader =
-            `<div class="col-md-6"> 
-                <img class="thumb" src="${strMealThumb}" alt="">
-            </div>
+    // Get Measurement and Ingredient
+    const singlePreviewHtml =
+        `<div class="col-md-6 mb-5"> 
+            <img class="thumb" src="${strMealThumb}" alt="">
+        </div>
 
-            <div class="col-md-5 offset-md-1"> 
-                <h2 class="fw-bold mb-3">${strMeal}</h2>
-                <h5 class="fw-bold mb-4">Ingredients</h5>
+        <div class="col-md-5 offset-md-1"> 
+            <h2 class="fw-bold mb-4">${strMeal}</h2>
+            <h5 class="fw-bold mb-4">Ingredients: </h5>
+            <ul class="list-group">
+                ${ingredient.map(e => `<li> <i class="fas fa-check-square"></i>${e}</li>`).join('')}
+            </ul>
+        </div>`
 
-                <ul class="list-group">
-                    <li> <i class="fas fa-check-square"></i> ${strMeasure1} ${strIngredient1} </li>
-                    <li> <i class="fas fa-check-square"></i> ${strMeasure2} ${strIngredient2} </li>
-                    <li> <i class="fas fa-check-square"></i> ${strMeasure3} ${strIngredient3} </li>
-                    <li> <i class="fas fa-check-square"></i> ${strMeasure4} ${strIngredient4} </li>
-                    <li> <i class="fas fa-check-square"></i> ${strMeasure5} ${strIngredient5} </li>
-                    <li> <i class="fas fa-check-square"></i> ${strMeasure6} ${strIngredient6} </li>
-                </ul>
-            </div>`
-
-        singleContainer.innerHTML = singleHeader;
-    })
-
+    singleContainer.innerHTML = singlePreviewHtml;
 }
